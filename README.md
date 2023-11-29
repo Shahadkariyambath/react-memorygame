@@ -1,5 +1,5 @@
-[] => Grid
-[] => Array of emoji
+[x] => Grid
+[x] => Array of emoji
 [] => Duplication
 [] => Shuffle Logic
 [] => Flipped

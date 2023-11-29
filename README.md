@@ -1,6 +1,6 @@
 [x] => Grid
 [x] => Array of emoji
-[] => Duplication
+[x] => Duplication
 [] => Shuffle Logic
 [] => Flipped
 [] => Solved

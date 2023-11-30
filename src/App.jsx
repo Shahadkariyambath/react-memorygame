@@ -2,7 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import Confetti from "react-confetti";
 
-const gameEmoji = ["❤", "🎶", "🎂", "🎁"];
+// const gameEmoji = ["❤", "🎶", "🎂", "🎁", "🐱‍🏍", "✔"];
+const gameEmoji = ["❤", "🎶", "🎂"];
 
 function App() {
   const [box, setBox] = useState([]);
@@ -29,7 +30,6 @@ function App() {
 
       duplicateEmoji.splice(index, 1);
     }
-    console.log(newEmojiDuplicate);
     setBox(newEmojiDuplicate);
   };
 
@@ -52,35 +52,22 @@ function App() {
 
     if (flippedBox.length === 2) {
       clearTime = setTimeout(() => {
-        if (flippedBox[0].emoji === flippedBox[1].emoji) {
-          console.log("Success");
-          setBox(
-            box.map((data) => {
-              if (
-                flippedBox[0].position === data.position ||
-                flippedBox[1].position === data.position
-              ) {
+        setBox(
+          box.map((data) => {
+            if (
+              flippedBox[0].position === data.position ||
+              flippedBox[1].position === data.position
+            ) {
+              if (flippedBox[0].emoji === flippedBox[1].emoji) {
                 data.solved = true;
-              }
-
-              return data;
-            })
-          );
-        } else {
-          console.log("Failed");
-          setBox(
-            box.map((data) => {
-              if (
-                flippedBox[0].position === data.position ||
-                flippedBox[1].position === data.position
-              ) {
+              } else {
                 data.flipped = false;
               }
+            }
 
-              return data;
-            })
-          );
-        }
+            return data;
+          })
+        );
       }, 800);
     }
   };
@@ -97,11 +84,9 @@ function App() {
     };
   }, [box]);
 
-  console.log(box);
-
   return (
     <main>
-      <h1>Memory Game in React</h1>
+      <h1>Memory Game</h1>
       <div className="container">
         {box.map((data, index) => (
           <div

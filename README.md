@@ -1,8 +1,8 @@
 [x] => Grid
 [x] => Array of emoji
 [x] => Duplication
-[] => Shuffle Logic
-[] => Flipped
-[] => Solved
-[] => Position
-[] => Game Position
+[x] => Shuffle Logic
+[x] => Flipped
+[x] => Solved
+[x] => Position
+[x] => Game Position

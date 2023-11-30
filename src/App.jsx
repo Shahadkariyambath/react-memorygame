@@ -1,10 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
 const gameEmoji = ["❤", "🎶", "🎂", "🎁"];
 
 function App() {
   const [box, setBox] = useState([]);
+
+  const isGameCompleted = useMemo(() => {
+    if (box.length > 0 && box.every((data) => data.solved)) {
+      return true;
+    }
+    return false;
+  }, [picece]);
 
   const startGame = () => {
     const duplicateEmoji = [...gameEmoji, ...gameEmoji];
@@ -26,6 +33,9 @@ function App() {
   };
 
   const handleChnage = (data) => {
+    const flippedBox = box.filter((data) => data.flipped && !data.solved);
+    if (flippedBox.length === 2) return;
+
     const newBox = box.map((picece) => {
       if (data.position === picece.position) {
         picece.flipped = !picece.flipped;
@@ -115,6 +125,11 @@ function App() {
           </div>
         ))}
       </div>
+      {isGameCompleted && (
+        <div className="winner-div">
+          <h1>You Win</h1>
+        </div>
+      )}
     </main>
   );
 }

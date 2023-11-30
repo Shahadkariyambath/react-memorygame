@@ -66,3 +66,16 @@ h1{
   font-size: 50px;
   border-radius: 5px;
 }
+
+.winner-div {
+  background-color: rgb(6 5 5 / 71%);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+
+}
+
+.winner-div h1 {
+  font-size: 50px;
+}

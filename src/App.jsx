@@ -1,17 +1,18 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
+import Confetti from "react-confetti";
 
 const gameEmoji = ["❤", "🎶", "🎂", "🎁"];
 
 function App() {
   const [box, setBox] = useState([]);
-
+  let clearTime = useRef();
   const isGameCompleted = useMemo(() => {
     if (box.length > 0 && box.every((data) => data.solved)) {
       return true;
     }
     return false;
-  }, [picece]);
+  }, [box]);
 
   const startGame = () => {
     const duplicateEmoji = [...gameEmoji, ...gameEmoji];
@@ -50,7 +51,7 @@ function App() {
     const flippedBox = box.filter((data) => data.flipped && !data.solved);
 
     if (flippedBox.length === 2) {
-      setTimeout(() => {
+      clearTime = setTimeout(() => {
         if (flippedBox[0].emoji === flippedBox[1].emoji) {
           console.log("Success");
           setBox(
@@ -84,14 +85,6 @@ function App() {
     }
   };
 
-  const checkTheGameFinish = () => {
-    if (box.every((data) => data.solved)) {
-      console.log("Success");
-    } else {
-      console.log("Faild");
-    }
-  };
-
   useEffect(() => {
     startGame();
   }, []);
@@ -99,9 +92,9 @@ function App() {
   useEffect(() => {
     logicForFlipped();
 
-    if (box.length > 0) {
-      checkTheGameFinish();
-    }
+    return () => {
+      clearTimeout(clearTime.current);
+    };
   }, [box]);
 
   console.log(box);
@@ -127,7 +120,8 @@ function App() {
       </div>
       {isGameCompleted && (
         <div className="winner-div">
-          <h1>You Win</h1>
+          <h1>You Win!!!</h1>
+          <Confetti width={window.innerWidth} height={window.innerHeight} />
         </div>
       )}
     </main>

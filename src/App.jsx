@@ -25,17 +25,89 @@ function App() {
     setBox(newEmojiDuplicate);
   };
 
+  const handleChnage = (data) => {
+    const newBox = box.map((picece) => {
+      if (data.position === picece.position) {
+        picece.flipped = !picece.flipped;
+      }
+      return picece;
+    });
+
+    setBox(newBox);
+  };
+
+  const logicForFlipped = () => {
+    const flippedBox = box.filter((data) => data.flipped && !data.solved);
+
+    if (flippedBox.length === 2) {
+      setTimeout(() => {
+        if (flippedBox[0].emoji === flippedBox[1].emoji) {
+          console.log("Success");
+          setBox(
+            box.map((data) => {
+              if (
+                flippedBox[0].position === data.position ||
+                flippedBox[1].position === data.position
+              ) {
+                data.solved = true;
+              }
+
+              return data;
+            })
+          );
+        } else {
+          console.log("Failed");
+          setBox(
+            box.map((data) => {
+              if (
+                flippedBox[0].position === data.position ||
+                flippedBox[1].position === data.position
+              ) {
+                data.flipped = false;
+              }
+
+              return data;
+            })
+          );
+        }
+      }, 800);
+    }
+  };
+
+  const checkTheGameFinish = () => {
+    if (box.every((data) => data.solved)) {
+      console.log("Success");
+    } else {
+      console.log("Faild");
+    }
+  };
+
   useEffect(() => {
     startGame();
   }, []);
 
-  // console.log(gameEmoji);
+  useEffect(() => {
+    logicForFlipped();
+
+    if (box.length > 0) {
+      checkTheGameFinish();
+    }
+  }, [box]);
+
+  console.log(box);
+
   return (
     <main>
       <h1>Memory Game in React</h1>
       <div className="container">
         {box.map((data, index) => (
-          <div className="flip-card" key={index}>
+          <div
+            className={`flip-card ${
+              data.flipped || data.solved ? "active" : ""
+            }`}
+            key={index}
+            onClick={() => handleChnage(data)}
+          >
             <div className="flip-card-inner">
               <div className="flip-card-front" />
               <div className="flip-card-back">{data.emoji}</div>
